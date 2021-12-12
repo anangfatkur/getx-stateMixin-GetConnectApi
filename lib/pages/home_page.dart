@@ -13,7 +13,20 @@ class HomePage extends GetView<MyController> {
         title: const Text("Home Page"),
       ),
       body: Center(
-        child: controller.obx((state) => Text(state!)),
+        child: controller.obx(
+          (state) => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("id : ${state!["id"]}"),
+              Text("Nama : ${state["first_name"] + state["last_name"]}"),
+              Text("Email : ${state["email"]}"),
+              Image.network("${state['avatar']}"),
+            ],
+          ),
+          onLoading: const Text("Loading.."),
+          onEmpty: const Text("Belum ada data.."),
+          onError: (error) => const Text("Terjadi Kesalahan"),
+        ),
 
         // child: Obx(
         //   () => Text(
