@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import '../controller/myController.dart';
 
 // class HomePage extends StatelessWidget {
-class HomePage extends GetView <MyController> {
+class HomePage extends GetView<MyController> {
   const HomePage({Key? key}) : super(key: key);
 
   @override
@@ -13,14 +13,18 @@ class HomePage extends GetView <MyController> {
         title: const Text("Home Page"),
       ),
       body: Center(
-        child: Obx(
-          () => Text(
-            "${controller.count}",
-            style: const TextStyle(fontSize: 30),
-          ),
-        ),
+        child: controller.obx((state) => Text(state!)),
+
+        // child: Obx(
+        //   () => Text(
+        //     "${controller.count}",
+        //     style: const TextStyle(fontSize: 30),
+        //   ),
+        // ),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () => controller.add(),),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => controller.getData(),
+      ),
     );
   }
 }
