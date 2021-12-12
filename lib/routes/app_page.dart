@@ -11,7 +11,7 @@ class AppPage {
     ),
     GetPage(
       name: RouteName.login,
-      page: () => const LoginPage(),
+      page: () => LoginPage(),
     ),
   ];
 }

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../controller/auth.dart';
+import '../controller/loginController.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  final loginC = Get.find<LoginController>();
+  final authC = Get.find<AuthController>();
+  LoginPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,24 +20,38 @@ class LoginPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           // ignore: prefer_const_literals_to_create_immutables
           children: [
-            const TextField(
+            TextField(
+              controller: loginC.emailController,
               autocorrect: false,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "Email",
                 border: OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 10),
-            const TextField(
-              autocorrect: false,
-              decoration: InputDecoration(
-                labelText: "Password",
-                border: OutlineInputBorder(),
+            Obx(
+              () => TextField(
+                controller: loginC.passwordController,
+                obscureText: loginC.hidden.value,
+                autocorrect: false,
+                decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    onPressed: () => loginC.hidden.toggle(),
+                    icon: loginC.hidden.isTrue
+                        ? const Icon(Icons.remove_red_eye)
+                        : const Icon(Icons.remove_red_eye_outlined),
+                  ),
+                  labelText: "Password",
+                  border: const OutlineInputBorder(),
+                ),
               ),
             ),
             const SizedBox(height: 10),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () => authC.login(
+                loginC.emailController.text,
+                loginC.passwordController.text,
+              ),
               child: const Text("Login"),
             ),
           ],
