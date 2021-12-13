@@ -13,8 +13,9 @@ import 'package:get_storage/get_storage.dart';
 import '../controller/auth.dart';
 import '../controller/loginController.dart';
 
-void main() {
+void main() async {
   runApp(MyApp());
+  await GetStorage.init();
 }
 
 class MyApp extends StatelessWidget {
@@ -24,13 +25,30 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => GetMaterialApp(
-          // home: const MyHomePage(),
+    return FutureBuilder(
+      future: authC.autoLogin(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return Obx(
+            () => GetMaterialApp(
+              // home: const MyHomePage(),
+              debugShowCheckedModeBanner: false,
+              home: authC.isAuth.isTrue ? MyHomePage() : LoginPage(),
+              getPages: AppPage.pages,
+              // initialBinding: MyBindings(),
+              // initialBinding: MyBindings(),
+            ),
+          );
+        }
+        return const MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: authC.isAuth.isTrue ? const MyHomePage() : LoginPage(),
-          getPages: AppPage.pages,
-          // initialBinding: MyBindings(),
-          // initialBinding: MyBindings(),
-        ));
+          home: Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          ),
+        );
+      },
+    );
   }
 }

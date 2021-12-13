@@ -7,7 +7,7 @@ class AppPage {
   static final pages = [
     GetPage(
       name: RouteName.home,
-      page: () => const MyHomePage(),
+      page: () =>  MyHomePage(),
     ),
     GetPage(
       name: RouteName.login,

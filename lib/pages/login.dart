@@ -47,10 +47,19 @@ class LoginPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
+            Obx(
+              () => CheckboxListTile(
+                value: loginC.rememberme.value,
+                onChanged: (value) => loginC.rememberme.toggle(),
+                title: const Text("Remember me"),
+                controlAffinity: ListTileControlAffinity.leading,
+              ),
+            ),
             ElevatedButton(
               onPressed: () => authC.login(
                 loginC.emailController.text,
                 loginC.passwordController.text,
+                loginC.rememberme.value,
               ),
               child: const Text("Login"),
             ),
